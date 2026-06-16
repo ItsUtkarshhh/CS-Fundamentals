@@ -220,3 +220,5 @@
 // -------------------------------------------------- Module 6 :  ------------------------------------------------------>
 // Learn about Port Number & Load Balancer
 // Learn about Rate Limiting
+// Learn about IPV4 & V6 and its importantance in IP Addressing and how its used
+// Learn about Port number and what and how it is used in the real world, and what actually it is!
