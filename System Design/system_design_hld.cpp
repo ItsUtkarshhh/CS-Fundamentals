@@ -218,3 +218,5 @@
 //                                   : Efficient Data Serialization : Protobuf / gRPC over JSON : JSON is human-readable text, which means it is bulky to send over the wire and slow for computers to parse. Technologies like Protocol Buffers (Protobuf) compress data into a tight, lightweight binary format, drastically slashing network transport and serialization latency.
 
 // -------------------------------------------------- Module 6 :  ------------------------------------------------------>
+// Learn about Port Number & Load Balancer
+// Learn about Rate Limiting
