@@ -240,6 +240,7 @@
 //                                            : 
 
 
+
 -------------------------------------------------------------------
 Update the below data carefully, it has the concepts of Load Balancer and OSI Model and how this load balancer uses some layers of OSI model, read, rephrase and understand and then add to the notes :
 
