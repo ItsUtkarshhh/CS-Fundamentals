@@ -320,8 +320,233 @@
 //                              : Network Switches (Layer 2 Devices) : When a switch in your house or office receives your data, it only unpacks it up to Layer 2 (Data Link). It looks at the Destination MAC address to see which local port to forward the data to, strips nothing else, wraps it back up, and sends it out Layer 1. It never looks at your IP address or your actual message.
 //                              : Network Routers (Layer 3 Devices) : 
 
+// RAW KNOWLEDGE : 
+So switch just checks the MAC address of the next router to which it wants to transfer the data? or something else?
+
+Not quite. The switch doesn't choose where it wants to transfer the data, nor does it decide which router to use.
+
+Let's clear up exactly who is making the decisions here. The switch does not make choices; your computer does. The switch is just blindly following orders stamped on the data by your computer.
+
+The Reality: Your Computer Chooses, the Switch Delivers
+Think of your computer as the sender of a letter, the Switch as the local mailbox/sorting machine, and the Router as the airport postal hub.
+
+Your computer makes the decision: Your computer looks at the data and says, "This needs to go to the internet. To get there, I must send this to my local Router." Your computer then manually writes the Router's MAC address as the destination on the data package.
+
+The computer hands it to the switch: The data travels down the wire into the switch.
+
+The switch acts as a blind sorter: The switch looks at the package and sees the destination MAC address (which your computer wrote). The switch thinks: "Oh, this MAC address belongs to whatever device is plugged into Port 4. I will send it out of Port 4."
+
+The switch doesn't know that Port 4 connects to a router. It doesn't know the data is going to the internet. It simply reads the hardware address your computer targeted and pushes the data down that specific wire.
+
+Let's Look at a Local Example (No Router Involved)
+What if you are just printing a document on your home network? There is no router needed for this.
+
+Your computer wants to send a file to your Network Printer.
+
+Your computer stamps the Printer's MAC address onto the data.
+
+The switch receives the data, reads the Printer's MAC address, looks at its internal table, and sees the printer is plugged into Port 2.
+
+The switch forwards the data out of Port 2.
+
+In this case, the router was never involved, and the switch didn't look for a router. It just looked for the printer, because that is what your computer asked for.
+
+To Put It Simply
+Your Computer decides which device needs to get the data next (either a local PC, a printer, or the default gateway router) and stamps that device's MAC address on the package.
+
+The Switch only checks its own internal MAC Address Table to see which physical plug/port matches that MAC address, and shoots the data out of that hole.
+
+The switch is essentially a high-speed, automated railway switchboard. It doesn't care where the train is going; it just flips the track to match the destination painted on the front of the train.
+
+What is this PORT thing here, I don't get it! Explain me in detailed and end to end manner!
+
+To understand ports, we have to move back up the stack to Layer 4: The Transport Layer.
+
+If IP addresses are like the street address of an apartment building (Layer 3), then Ports are the individual apartment numbers inside that building (Layer 4).
+
+An IP address gets the data to the correct device, but a port gets the data to the correct software program running on that device.
+
+The Problem Ports Solve: Multi-Tasking
+Imagine you are sitting at your computer. You have three tabs open in Google Chrome (YouTube, Gmail, and a news site), you are talking to a friend on Discord, and an online game is downloading a patch in the background.
+
+All of this data is arriving at your computer at the exact same time through a single internet cable (or Wi-Fi connection), and all of it is addressed to your one IP address.
+
+Without ports, your computer would receive a packet of data and have absolutely no idea where it belongs. Should the data go to Chrome? Discord? The game?
+
+Ports act as separate internal channels or "mailboxes" so your operating system can sort incoming data to the correct application.
+
+How Ports Work End-to-End (The Socket)
+In networking, when you combine an IP Address and a Port Number together, it forms something called a Socket.
+
+Socket Format: IP Address : Port Number
+
+Example: 192.168.1.5:443
+
+Every single network conversation requires two sockets: a Source Socket (sender) and a Destination Socket (receiver).
+
+The Full Data Flow Example:
+Let's look at what happens when you open Chrome and go to https://google.com.
+
+Your Computer's IP: 192.168.1.25
+
+Google Server's IP: 142.250.190.46
+
+Step 1: Choosing the Ports
+Your computer knows that standard, secure web traffic (HTTPS) always runs on port 443. So, the Destination Port is 443.
+Next, your computer's operating system randomly generates a temporary, unused port number for your specific Chrome tab—let's say port 53211. This is the Source Port.
+
+Step 2: Packing the Segment (Layer 4)
+The Transport Layer creates a TCP header and stamps it with:
+
+Source Port: 53211 (Send replies here!)
+
+Destination Port: 443 (Hey Google, give this to your web server software!)
+
+Step 3: Delivery to the Server
+The data goes down to the internet, travels to Google's IP address (142.250.190.46), and arrives at Google's hardware. Google's operating system looks at the packet, sees Destination Port 443, and instantly hands it to its Web Server application.
+
+Step 4: The Return Journey
+When Google responds, it reverses the ports:
+
+Source Port: 443 (From Google's web server)
+
+Destination Port: 53211 (To your specific Chrome tab)
+
+When the data hits your computer, your OS sees Port 53211 and knows exactly which Chrome tab to display the webpage in. If you had a second tab open browsing a different site, it would have its own unique port number (e.g., 53212).
+
+The Three Categories of Ports
+There are 65,535 available ports in networking. They are divided into three strict ranges regulated by IANA (Internet Assigned Numbers Authority):
+
+1. Well-Known Ports (0 – 1023)
+These are reserved for standard, universal internet system protocols. Think of these like emergency phone numbers (like 911); they never change so that everyone knows how to find them.
+
+Port 22: SSH (Secure remote server access)
+
+Port 25: SMTP (Sending emails)
+
+Port 53: DNS (Translating website names to IP addresses)
+
+Port 80: HTTP (Unencrypted web traffic)
+
+Port 443: HTTPS (Encrypted secure web traffic)
+
+2. Registered Ports (1024 – 49151)
+These are used by companies for specific applications and games. Companies register these so their software always uses the same port.
+
+Port 1433: Microsoft SQL Server
+
+Port 3389: Remote Desktop (RDP)
+
+Port 3074: Xbox Live / Call of Duty matchmaking
+
+3. Dynamic/Private Ports (49152 – 65535)
+Also known as ephemeral ports. These cannot be registered. They are completely free and are used by your client computer's operating system to temporarily assign a port to an outgoing request (just like the 53211 port Chrome used in our example). As soon as you close the tab, that port is freed up for another app to use.
+
+Summary: The Layer Breakdown
+To tie this back to everything you've learned so far:
+
+Layer 2 (Switch): Uses MAC addresses to deliver data to the right physical device on the local network.
+
+Layer 3 (Router): Uses IP addresses to deliver data across different networks to the right house/building.
+
+Layer 4 (Transport): Uses Port numbers to deliver data to the right application inside that device.
+
+Dynamic/Private Ports (49152 – 65535)
 
 
+
+So by any chance are you saying that we can only open... 65535 - 49152 Web applications at once?
+
+That is an incredibly logical and sharp question to ask! If we calculate 65535−49152+1, that gives us exactly 16,384 dynamic ports.
+
+So, does that mean your computer can only handle 16,384 concurrent network connections or web browser tabs at once?
+
+The short answer is no, you can open far more than that. Let's clear up this limitation myth. You are not limited to 16,384 connections because of how a unique network connection is defined. A port can be reused simultaneously across different connections.
+
+The Secret: The 4-Tuple Combination
+Your operating system does not identify a unique network connection only by your local port number. Instead, it identifies every single connection by a unique combination of four distinct pieces of information, known as a 4-Tuple:
+
+Source IP (Your computer's IP)
+
+Source Port (Your dynamic port)
+
+Destination IP (The server's IP)
+
+Destination Port (The server's port, like 443)
+
+As long as at least one of these four variables is different, the connection is considered entirely separate, and your operating system can reuse the exact same dynamic port.
+
+Real-World Scenario: Port Reuse in Action
+Imagine your computer's IP is 192.168.1.25. You open two browser tabs at the same time: one to Google and one to Netflix.
+
+Your operating system can actually assign the exact same source port (e.g., 50000) to both tabs! Here is how the network stack sees them as completely separate:
+
+Connection	Source IP	Source Port	Destination IP	Destination Port	Status
+Tab 1 (Google)	192.168.1.25	50000	142.250.190.46	443	Unique
+Tab 2 (Netflix)	192.168.1.25	50000	54.237.22.11	443	Unique
+Because the Destination IPs are different, the 4-tuple is unique. When packets come back from Google, your computer knows they belong to Tab 1. When packets come back from Netflix, it knows they belong to Tab 2—even though both are utilizing port 50000 on your machine!
+
+When Do You Actually Run Out of Ports?
+You only run into a bottleneck if you try to open thousands of connections to the exact same destination IP and destination port simultaneously.
+
+For example, if you opened 16,384 tabs all pointing to https://google.com (same destination IP, same destination port 443), your computer would exhaust its entire dynamic port range for that specific server. The 16,385th tab would give you a network error because the 4-tuple could no longer create a unique combination.
+
+What is the real theoretical limit?
+For general web browsing across different sites on the internet, your system's limit isn't the number of ports. It is bounded by your computer's RAM (Memory) and CPU processing power, which will typically fill up and lag your system long before you ever manage to exhaust the combinations of the networking stack.
+
+But still if we can talk about it, what is the actual limit of web connections we can make!
+
+To find the absolute, maximum mathematical limit of web connections your computer can make, we have to look past the port limits and calculate the maximum number of unique 4-Tuple combinations possible.
+
+If we assume your computer has a single IP address and you are connecting to various web servers across the internet on a standard web port (like Port 443 for HTTPS), the math comes down to two variables: How many unique server IPs exist? and How many dynamic ports do you have?
+
+Let's break down the theoretical math, the operating system limits, and the practical real-world limits.
+
+1. The Theoretical Mathematical Limit (IPv4)
+Let's do the raw math for an IPv4 network.
+
+Your IP (Source IP): Fixed to 1 IP.
+
+Your Ports (Source Ports): If your operating system allows you to use the entire available range of ports (0 to 65,535), you have 65,536 ports.
+
+Web Server Port (Destination Port): Fixed to Port 443 (HTTPS).
+
+Internet IPs (Destination IPs): The entire IPv4 address space has roughly 2 
+32
+  addresses, which is about 4.3 billion possible IP addresses.
+
+To find the total number of unique connections, we multiply your available source ports by the number of unique destination IP addresses on the internet:
+
+Total Connections=65,536 (Ports)×4,294,967,296 (IPs)
+Total Connections≈281,474,976,710,656
+Mathematically, a single computer with one IP address can theoretically open over 281 trillion unique web connections across the global IPv4 internet simultaneously. If the world transitions completely to IPv6, that number becomes so astronomically large it approaches infinity.
+
+2. The Operating System Limit (The File Descriptor Cap)
+In the real world, your operating system (Windows, macOS, or Linux) will step in and stop you long before you hit trillions of connections.
+
+In operating systems like Linux and macOS, everything is treated as a file—including a network socket connection. Every time you open a web connection, the OS assigns it a number called a File Descriptor.
+
+By default, operating systems place a safety cap on how many file descriptors a single program (or the entire system) can open at once to prevent malicious software or buggy code from crashing the computer.
+
+Default Linux Limit: Typically around 1,024 per process, but the system-wide limit can be configured up to roughly estimated at 1 million to 4 million connections if you tweak the system settings (sysctl and ulimit).
+
+Default Windows Limit: The Windows Registry typically caps concurrent TCP connections around 16,000 to 65,000 by default, though this can also be modified in the registry settings.
+
+3. The Practical Hardware Limit (RAM)
+If you bypass the OS limits by hacking the settings, your absolute final bottleneck is your computer's physical RAM (Random Access Memory).
+
+Every single network connection requires the operating system kernel to allocate a small chunk of memory to track it. This memory is used for TCP buffers (holding data coming in and out) and socket tracking data structures.
+
+On a highly optimized Linux system, a single idle TCP connection consumes roughly 4 KB of RAM.
+
+If your computer has 16 GB of RAM, and we assume all of it could be used purely for networking sockets (ignoring the desktop, browser graphics, and OS background tasks):
+
+4 KB (per connection)
+16,000,000 KB (RAM)
+​
+ =4,000,000 connections
+The Reality Check
+In a real-world scenario, a standard modern laptop running web browsers will comfortably handle a few thousand active connections before the browser tabs start crashing, not because of the network protocols, but because modern websites load heavy JavaScript, images, and videos that consume megabytes of RAM per tab, rather than kilobytes.
 
 
 
