@@ -283,10 +283,41 @@
 
 // 4 Layers of TCP/IP Model : Instead of 7 layers, the standard TCP/IP model condenses everything into 4 layers.
 //                          : The four layers include : Application Layer (Maps to OSI Layers 5, 6, and 7), Transport Layer (Maps to OSI Layer 4), Internet Layer (Maps to OSI Layer 3) & Network Access Layer (Maps to OSI Layers 1 and 2).
+//                          : TCP/IP Model : Application Layer - This layer handles everything related to user applications, data formatting, encryption, and session management. Instead of letting the operating system handle sessions and translation separately, the specific application protocol (like HTTPS or SMTP) handles it all at once.
+//                                                             - Protocols : HTTP, HTTPS, FTP, SSH, SMTP, DNS, DHCP.
+//                                         : Transport Layer - This layer functions exactly like its OSI counterpart. It manages end-to-end communication, reliability, flow control, and multiplexing (using ports to make sure data goes to the right app).
+//                                                           - Protocols : TCP (reliable, connection-oriented) and UDP (fast, connectionless).
+//                                         : Internet Layer - This layer handles the logical addressing and routing of data packets across different networks. It defines the path data must take to reach its destination
+//                                                          - Protocols : IP (IPv4/IPv6), ICMP (used for pinging), ARP (maps IP to MAC addresses).
+//                                         : Network Layer - Also known as the Link Layer or Network Interface Layer. It defines how data is physically transmitted through the network media (wires, fiber, airwaves) and handles physical hardware addressing (MAC addresses).
+//                                                         - Protocols/Technologies : Ethernet, Wi-Fi (802.11), PPP, DSL.
+//                          : Working : To see exactly how data transfer works in TCP/IP, let's trace what happens when you type https://example.com into your browser and hit Enter.
+//                                    : Step 1 - The Application Layer (Creating the Data) : Your browser prepares an HTTP "GET" request. Because it is secure (https), the application layer also handles the TLS/SSL encryption.
+//                                                                                         : Data Unit : Raw Data.
+//                                                                                         : Action : The layer creates the payload: "Hey example.com, please show me your homepage."
+//                                    : Step 2 - The Transport Layer (Segmentation & Porting) : The raw data is handed down to the Transport Layer. Because loading a website requires accuracy (you don't want pieces of the webpage missing), it uses TCP.
+//                                                                                            : Data Unit : Segment.
+//                                                                                            : Action : The Transport layer breaks the large HTTP request into smaller chunks. It slaps a TCP Header onto each chunk. This header contains the Source Port (a random temporary port assigned to your browser, e.g., 53210) and the Destination Port (Port 443 for HTTPS).
+//                                    : Step 3 - The Internet Layer (Addressing & Routing) : The TCP segment is handed down to the Internet Layer.
+//                                                                                         : Data Unit : Packet.
+//                                                                                         : Action : The Internet layer slaps an IP Header on top of the TCP segment. This header contains your device's Source IP Address and the Destination IP Address of the server hosting example.com.
+//                                    : Step 4 - The Network Access Layer (Hardware Mapping & Transmission) : The IP packet is handed down to the final layer.
+//                                                                                                          : Data Unit : Frame, which then becomes Bits.
+//                                                                                                          : Action : The layer wraps the packet in a Frame Header and Trailer (Ethernet or Wi-Fi). This header contains your computer's Source MAC Address and the Destination MAC Address of your local home router (the next immediate physical stop). The frame trailer contains an error-checking code (FCS).
+//                                                                                                          : Finally, the Network Access layer converts this digital frame into electrical signals or radio frequencies (1s and 0s) and shoots it out across the wire/air.
+//                                    : The Receiving End (Decapsulation) : When the server at example.com receives those bits, it reads them from the bottom up.
+//                                                                        : Network Access Layer : Strips off the Ethernet frame, verifies the MAC address, and ensures the data wasn't corrupted in transit.
+//                                                                        : Internet Layer : Strips off the IP header and looks at the destination IP to ensure it reached the right server.
+//                                                                        : Transport Layer : Strips off the TCP header, looks at Destination Port 443, realizes this is meant for its Web Server software, and reassembles the segments in the correct order.
+//                                                                        : Application Layer : Receives the fully assembled, decrypted HTTP request. The web server reads it, fetches the homepage, and starts the exact same process in reverse to send the website back to your screen.
 
+// The Real Communication Pipeline : Network communication is an symmetrical, two-way process. When a device acts as a sender, data travels sequentially downward from the Application layer (Layer 7) to the Physical layer (Layer 1) to be transmitted
+//                                 : Conversely, when the destination device receives this data, the process is reversed, moving upward from the Physical layer (Layer 1) to the Application layer (Layer 7).
+//                                 : If the receiver replies, its role immediately switches to sender, repeating the exact same downward encapsulation process."
 
-
-
+// Expanding Your Understanding : The "Half-Way" Devices
+//                              : When your data leaves your house, it doesn't just magically jump to the receiver. It has to pass through intermediate devices like Switches and Routers. These devices do not read all 7 layers!
+//                              : Network Switches (Layer 2 Devices) : 
 
 
 
