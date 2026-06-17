@@ -317,7 +317,8 @@
 
 // Expanding Your Understanding : The "Half-Way" Devices
 //                              : When your data leaves your house, it doesn't just magically jump to the receiver. It has to pass through intermediate devices like Switches and Routers. These devices do not read all 7 layers!
-//                              : Network Switches (Layer 2 Devices) : 
+//                              : Network Switches (Layer 2 Devices) : When a switch in your house or office receives your data, it only unpacks it up to Layer 2 (Data Link). It looks at the Destination MAC address to see which local port to forward the data to, strips nothing else, wraps it back up, and sends it out Layer 1. It never looks at your IP address or your actual message.
+//                              : Network Routers (Layer 3 Devices) : 
 
 
 
