@@ -1,1 +1,42 @@
+-- Important DBMS Topics & Concepts Must Study Deeply
+-- 1. What is DBMS & Types of DBMS
+-- 2. Basic Hands On Experience on some Major Polpular DBMS - MySQL, PostgreSQL, MongoDB, Redis
+-- 3. ACID Properties, Usage & Case Studies along with practical implementation
+-- 4. What is 3-Schema Architecture?
+-- 5. What is Data Independence?
+-- 6. Conceptual & Practical Understanding & Hands On with different Database Connections with Different Architectures & Tech Stack
+-- 7. Understanding & Usage of different Keys & Constraints : Primary Key, Foreign Key, Candidate  Key, Super Key, Composite Key & Surrogate Key
+-- 8. Normalisation, concept, & practical implementation knowledge and understanding : 1NF, 2NF, 3NF, 4NF, BCNF & De Normalisation
+-- 9. Transactions in Databases
+-- 10. Handling Concurrency in Databases
+-- 11. Understanding Dirty Read concepts and related
+-- 12. Understanding Phanton Read concepts and related
+-- 13. Understanding different Isolation Levels and related
+-- 14. Deadlock understanding and practical knowledge and related.
 
+-- Important SQL Topics & Concepts Must Study Deeply
+-- 1. DDL, DML, DCL, TTL
+-- 2. Understanding Delete, Truncate & Drop in depth
+-- 3. Inner Join, Full Outer Join, Left Join, Right Join, Self Join & Self Join
+-- 4. Advanced Functions & Features : Aggregate Functions and Usage
+--                                  : Having & Group By
+--                                  : Having vs Where
+--                                  : SubQuery
+--                                  : Co Related Query
+--                                  : Common Table Expression & WITH keyword usage
+--                                  : Important Window Functions : ROW_NUMBER(), RANK(), DENSE_RANK()
+
+-- Optimizations & Internals
+-- 1. Understanding of Indexings : Cluster & Non Cluster Indexing
+-- 2. B-Tree
+-- 3. Query Performance
+-- 4. Index Scan
+-- 5. Index Seek
+-- 6. Query Tuning
+
+-- More Advanced Topics to Conquer
+-- 1. NoSQL vs. SQL (Polyglot Persistence)
+-- 2. Database Scaling & Architecture : Vertical Scaling, Horizontal Scaling, Sharding & Replication
+-- 3. CAP Theorem (Distributed Systems)
+-- 4. Advanced Coding: Handling Edge Cases
+-- 5. Views, Triggers, and Stored Procedures
