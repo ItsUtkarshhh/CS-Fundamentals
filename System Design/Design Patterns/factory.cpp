@@ -96,10 +96,13 @@ class SortingService {
         delete sortingStrategy;
     }
     
-    void setStrategy(SortingStrategy* strategy) {
+    void setStrategy(SortingStrategy* newStrategy) {
         delete this->sortingStrategy;
-        this->sortingStrategy = strategy;
+        this->sortingStrategy = newStrategy;
     }
+
+    SortingService(const SortingService &other) = delete;
+    SortingService& operator=(const SortingService &other) = delete;
     
     void sort(vector<int>& arr) {
         sortingStrategy->sort(arr);
@@ -136,66 +139,66 @@ class FormatStrategy {
 class PDFFormat : public FormatStrategy {
     public:
     void format() override {
-        cout<<"Formatting the content in PDF Format...";
+        cout<<"Formatting the content in PDF Format..."<<endl;
     }
 
     void save() override {
-        cout<<"Saving the content in PDF Format...";
+        cout<<"Saving the content in PDF Format..."<<endl;
     }
 };
 
 class ExcelFormat : public FormatStrategy {
     public:    
     void format() override {
-        cout<<"Formatting the content in Excel Format...";
+        cout<<"Formatting the content in Excel Format..."<<endl;
     }
 
     void save() override {
-        cout<<"Saving the content in Excel Format...";
+        cout<<"Saving the content in Excel Format..."<<endl;
     }
 };
 
 class CSVFormat : public FormatStrategy {
     public:
     void format() override {
-        cout<<"Formatting the content in CSV Format...";
+        cout<<"Formatting the content in CSV Format..."<<endl;
     }
 
     void save() override {
-        cout<<"Saving the content in CSV Format...";
+        cout<<"Saving the content in CSV Format..."<<endl;
     }
 };
 
 class MarkdownFormat : public FormatStrategy {
     public:
     void format() override {
-        cout<<"Formatting the content in Markdown Format...";
+        cout<<"Formatting the content in Markdown Format..."<<endl;
     }
 
     void save() override {
-        cout<<"Saving the content in Markdown Format...";
+        cout<<"Saving the content in Markdown Format..."<<endl;
     }
 };
 
 class HTMLFormat : public FormatStrategy {
     public:
     void format() override {
-        cout<<"Formatting the content in HTML Format...";
+        cout<<"Formatting the content in HTML Format..."<<endl;
     }
 
     void save() override {
-        cout<<"Saving the content in HTML Format...";
+        cout<<"Saving the content in HTML Format..."<<endl;
     }
 };
 
 class InvalidFormat : public FormatStrategy {
     public:
     void format() override {
-        cout<<"The format is invalid... hence cannot format";
+        cout<<"The format is invalid... hence cannot format"<<endl;
     }
 
     void save() override {
-        cout<<"The format is invalid... hence cannot save";
+        cout<<"The format is invalid... hence cannot save"<<endl;
     }
 };
 
@@ -220,9 +223,12 @@ class FormatService {
         this->formatStrategy = move(format);
     }
 
-    void setFormatStrategy(unique_ptr<FormatStrategy> format) {
-        this->formatStrategy = move(format);
+    void setFormatStrategy(unique_ptr<FormatStrategy> newFormat) {
+        this->formatStrategy = move(newFormat);
     }
+
+    FormatService(const FormatService &other) = delete;
+    FormatService& operator=(const FormatService &other) = delete;
 
     void workerService() {
         formatStrategy->format();
@@ -324,9 +330,13 @@ class AuthService {
         delete strategy;
     }
 
-    void setAuthService(AuthStrategy* strategy) {
-        this->strategy = strategy;
+    void setAuthService(AuthStrategy* newStrategy) {
+        delete this->strategy;
+        this->strategy = newStrategy;
     }
+
+    AuthService(const AuthService &other) = delete;
+    AuthService& operator=(const AuthService &other) = delete;
 
     void processAuth() {
         strategy->processAuthentication();

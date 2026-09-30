@@ -145,9 +145,13 @@ class SortingService {
         delete sortingStrategy;
     }
     
-    void setStrategy(SortingStrategy* sortingStrategy) {
-        this->sortingStrategy = sortingStrategy;
+    void setStrategy(SortingStrategy* newStrategy) {
+        delete this->sortingStrategy;
+        this->sortingStrategy = newStrategy;
     }
+
+    SortingService(const SortingService &other) = delete;
+    SortingService& operator=(const SortingService&) = delete;
     
     void sort(vector<int>& arr) {
         sortingStrategy->sort(arr);
@@ -156,15 +160,10 @@ class SortingService {
 
 int main() {
     vector<int> v = {5,4,3,2,1};
-    SortingService* sort = new SortingService(new MergeSort()); // Dynamicallly allocated memory needs to be cleaned using delete keyword.
-    sort->sort(v);
+    SortingService* service = new SortingService(new MergeSort()); // Dynamicallly allocated memory needs to be cleaned using delete keyword.
+    service->sort(v);
     
-    delete sort;
-    
-    vector<int> v2 = {5,4,3,2,1};
-    MergeSort mergeSort;
-    SortingService* sort2 = new SortingService(&mergeSort); // Statically allocated memory automatically gets cleaned up.
-    sort2->sort(v);
+    delete service;
 }
 
 // ----------------------------------------------- More Problems -------------------------------------------------------------------->
@@ -186,55 +185,55 @@ class FormatStrategy {
 class PDFFormat : public FormatStrategy {
     public:
     void format() override {
-        cout<<"Formatting the content in PDF Format...";
+        cout<<"Formatting the content in PDF Format..."<<endl;
     }
 
     void save() override {
-        cout<<"Saving the content in PDF Format...";
+        cout<<"Saving the content in PDF Format..."<<endl;
     }
 };
 
 class ExcelFormat : public FormatStrategy {
     public:    
     void format() override {
-        cout<<"Formatting the content in Excel Format...";
+        cout<<"Formatting the content in Excel Format..."<<endl;
     }
 
     void save() override {
-        cout<<"Saving the content in Excel Format...";
+        cout<<"Saving the content in Excel Format..."<<endl;
     }
 };
 
 class CSVFormat : public FormatStrategy {
     public:
     void format() override {
-        cout<<"Formatting the content in CSV Format...";
+        cout<<"Formatting the content in CSV Format..."<<endl;
     }
 
     void save() override {
-        cout<<"Saving the content in CSV Format...";
+        cout<<"Saving the content in CSV Format..."<<endl;
     }
 };
 
 class MarkdownFormat : public FormatStrategy {
     public:
     void format() override {
-        cout<<"Formatting the content in Markdown Format...";
+        cout<<"Formatting the content in Markdown Format..<<endl.";
     }
 
     void save() override {
-        cout<<"Saving the content in Markdown Format...";
+        cout<<"Saving the content in Markdown Format...<<endl";
     }
 };
 
 class HTMLFormat : public FormatStrategy {
     public:
     void format() override {
-        cout<<"Formatting the content in HTML Format...";
+        cout<<"Formatting the content in HTML Format...<<endl";
     }
 
     void save() override {
-        cout<<"Saving the content in HTML Format...";
+        cout<<"Saving the content in HTML Format...<<endl";
     }
 };
 
@@ -247,9 +246,17 @@ class FormatService {
         this->formatStrategy = format;
     }
 
-    void setFormatStrategy(FormatStrategy* format) {
-        this->formatStrategy = format;
+    void setFormatStrategy(FormatStrategy* newFormat) {
+        delete this->formatStrategy;
+        this->formatStrategy = newFormat;
     }
+
+    ~FormatService() {
+        delete formatStrategy;
+    }
+
+    FormatService(const FormatService &other) = delete;
+    FormatService& operator=(const FormatService &other) = delete;
 
     void workerService() {
         formatStrategy->format();
@@ -262,7 +269,6 @@ int main() {
     FormatService* service = new FormatService(strategy);
     service->workerService();
 
-    delete strategy;
     delete service;
 }
 
@@ -281,42 +287,42 @@ class PaymentStrategy {
 
 class UPIPayment : public PaymentStrategy {
     public:
-    void processPayment() {
+    void processPayment() override {
         cout<<"Paying via UPI..."<<endl;
     }
 };
 
 class CardPayment : public PaymentStrategy {
     public:
-    void processPayment() {
+    void processPayment() override {
         cout<<"Paying via Card..."<<endl;
     }
 };
 
 class CashPayment : public PaymentStrategy {
     public:
-    void processPayment() {
+    void processPayment() override {
         cout<<"Paying via Cash..."<<endl;
     }
 };
 
 class WalletPayment : public PaymentStrategy {
     public:
-    void processPayment() {
+    void processPayment() override {
         cout<<"Paying via Wallet..."<<endl;
     }
 };
 
 class CryptoPayment : public PaymentStrategy {
     public:
-    void processPayment() {
+    void processPayment() override {
         cout<<"Paying via Crypto..."<<endl;
     }
 };
 
 class NetBankingPayment : public PaymentStrategy {
     public:
-    void processPayment() {
+    void processPayment() override {
         cout<<"Paying via NetBanking..."<<endl;
     }
 };
@@ -330,9 +336,17 @@ class PaymentService {
         this->strategy = strategy;
     }
 
-    void setPaymentService(PaymentStrategy* strategy) {
-        this->strategy = strategy;
+    void setPaymentStrategy(PaymentStrategy* newStrategy) {
+        delete this->strategy;
+        this->strategy = newStrategy;
     }
+
+    ~PaymentService() {
+        delete strategy;
+    }
+
+    PaymentService(const PaymentService &other) = delete;
+    PaymentService& operator=(const PaymentService &other) = delete;
 
     void processPayment() {
         cout<<"Processing Payment..."<<endl;
@@ -397,10 +411,10 @@ int main() {
             return 1;
     }
 
-    PaymentService service(selectedStrategy);
-    service.processPayment();
+    PaymentService* service = new PaymentService(selectedStrategy);
+    service->processPayment();
 
-    delete selectedStrategy;
+    delete service;
 }
 
 // P2 : Enterprise Authentication Provider Service
@@ -463,9 +477,13 @@ class AuthService {
         delete strategy;
     }
 
-    void setAuthService(AuthStrategy* strategy) {
-        this->strategy = strategy;
+    void setAuthStrategy(AuthStrategy* newStrategy) {
+        delete this->strategy;
+        this->strategy = newStrategy;
     }
+
+    AuthService(const AuthService &other) = delete;
+    AuthService& operator=(const AuthService &other) = delete;
 
     void processAuth() {
         strategy->processAuthentication();
@@ -473,16 +491,8 @@ class AuthService {
 };
 
 int main() {
-    // Do either one thing, either stack or heap allocation & choose whether to use destructor or not, as destrutor is strictly for heap allocation deletion, and program might crash if you will allocate stack memory as well.
-    // Either use destructor & heap memory allocation
-    // Or no destructor & stack memory allocation
+    AuthService* service = new AuthService(new OAuth());
+    service->processAuth();
 
-    OAuth oauth;
-    AuthService service(&oauth);
-    service.processAuth();
-
-    AuthService* service2 = new AuthService(new OAuth());
-    service2->processAuth();
-
-    delete service2;
+    delete service;
 }
